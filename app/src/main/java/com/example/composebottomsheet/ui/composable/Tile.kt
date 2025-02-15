@@ -26,22 +26,15 @@ fun Tile(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val clickableModifier = modifier
-        .fillMaxWidth()
-        .clip(shape = RoundedCornerShape(size = 8.dp))
-        .clickable(onClick = onClick)
-        .background(color = colorResource(R.color.darker_gray))
-        .padding(horizontal = 16.dp, vertical = 16.dp)
-
-    val nonClickableModifier = modifier
-        .fillMaxWidth()
-        .clip(shape = RoundedCornerShape(size = 8.dp))
-        .background(color = colorResource(R.color.darker_gray))
-        .padding(horizontal = 16.dp, vertical = 16.dp)
-
+    val modifierAddon = if (isClickable) Modifier.clickable(onClick = onClick) else Modifier
     Column(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        modifier = if (isClickable) clickableModifier else nonClickableModifier
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(size = 8.dp))
+            .background(color = colorResource(R.color.darker_gray))
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .then(modifierAddon)
 
     ) {
         Text(text = title, fontSize = 32.sp)
