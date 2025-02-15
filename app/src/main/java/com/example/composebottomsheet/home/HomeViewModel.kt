@@ -12,10 +12,10 @@ class HomeViewModel : ViewModel() {
 
     fun handleEvent(event: UiEvent) {
         when (event) {
-            is UiEvent.DismissBottomSheet -> _state.update { it.copy(bottomSheetType = BottomSheetType.Hide) }
-            is UiEvent.OpenBottomSheet -> _state.update { it.copy(bottomSheetType = BottomSheetType.Normal) }
-            is UiEvent.OpenFullHeightBottomSheet -> _state.update { it.copy(bottomSheetType = BottomSheetType.FullHeight) }
-            is UiEvent.OpenBottomSheetWithNoDragHandle -> _state.update { it.copy(bottomSheetType = BottomSheetType.NoDragHandle) }
+            is UiEvent.DismissBottomSheet -> _state.update { it.copy(isTileClickable = true, bottomSheetType = BottomSheetType.Hide) }
+            is UiEvent.OpenBottomSheet -> _state.update { it.copy(isTileClickable = false, bottomSheetType = BottomSheetType.Normal) }
+            is UiEvent.OpenFullHeightBottomSheet -> _state.update { it.copy(isTileClickable = false, bottomSheetType = BottomSheetType.FullHeight) }
+            is UiEvent.OpenBottomSheetWithNoDragHandle -> _state.update { it.copy(isTileClickable = false, bottomSheetType = BottomSheetType.NoDragHandle) }
         }
     }
 
@@ -29,6 +29,7 @@ class HomeViewModel : ViewModel() {
     }
 
     data class UiState(
+        val isTileClickable: Boolean = true,
         val bottomSheetType: BottomSheetType = BottomSheetType.Hide,
         val bottomSheetText: String = "This is the normal bottom sheet. Swipe down to dismiss.",
         val fullHeightBottomSheetText: String = "This is the full height bottom sheet. Swipe up to open sheet. Swipe down to dismiss.",

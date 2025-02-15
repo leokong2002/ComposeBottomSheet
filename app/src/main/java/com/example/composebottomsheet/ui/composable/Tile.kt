@@ -22,19 +22,26 @@ import com.example.composebottomsheet.ui.theme.Theme
 fun Tile(
     title: String,
     subtitle: String,
+    isClickable: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val clickableModifier = modifier
+        .fillMaxWidth()
+        .clip(shape = RoundedCornerShape(size = 8.dp))
+        .clickable(onClick = onClick)
+        .background(color = colorResource(R.color.darker_gray))
+        .padding(horizontal = 16.dp, vertical = 16.dp)
+
+    val nonClickableModifier = modifier
+        .fillMaxWidth()
+        .clip(shape = RoundedCornerShape(size = 8.dp))
+        .background(color = colorResource(R.color.darker_gray))
+        .padding(horizontal = 16.dp, vertical = 16.dp)
+
     Column(
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(
-                shape = RoundedCornerShape(size = 8.dp)
-            )
-            .clickable(onClick = onClick)
-            .background(color = colorResource(R.color.darker_gray))
-            .padding(horizontal = 16.dp, vertical = 16.dp)
+        modifier = if (isClickable) clickableModifier else nonClickableModifier
 
     ) {
         Text(text = title, fontSize = 32.sp)
@@ -49,6 +56,7 @@ fun TilePreview() {
         Tile(
             title = "Title",
             subtitle = "Hey, how are you doing",
+            isClickable = true,
             onClick = {}
         )
     }
